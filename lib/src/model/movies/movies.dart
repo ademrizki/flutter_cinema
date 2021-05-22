@@ -7,7 +7,7 @@ part 'movies.g.dart';
 class Movies with _$Movies {
   const factory Movies({
     @JsonKey(name: 'page') int? page,
-    @JsonKey(name: 'result') List<MoviesResult>? data,
+    @JsonKey(name: 'results') List<MoviesResult>? data,
   }) = _Movies;
 
   factory Movies.fromJson(Map<String, dynamic> json) => _$MoviesFromJson(json);

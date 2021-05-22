@@ -22,7 +22,7 @@ class _$MoviesTearOff {
 
   _Movies call(
       {@JsonKey(name: 'page') int? page,
-      @JsonKey(name: 'result') List<MoviesResult>? data}) {
+      @JsonKey(name: 'results') List<MoviesResult>? data}) {
     return _Movies(
       page: page,
       data: data,
@@ -41,7 +41,7 @@ const $Movies = _$MoviesTearOff();
 mixin _$Movies {
   @JsonKey(name: 'page')
   int? get page => throw _privateConstructorUsedError;
-  @JsonKey(name: 'result')
+  @JsonKey(name: 'results')
   List<MoviesResult>? get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -55,7 +55,7 @@ abstract class $MoviesCopyWith<$Res> {
       _$MoviesCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: 'page') int? page,
-      @JsonKey(name: 'result') List<MoviesResult>? data});
+      @JsonKey(name: 'results') List<MoviesResult>? data});
 }
 
 /// @nodoc
@@ -91,7 +91,7 @@ abstract class _$MoviesCopyWith<$Res> implements $MoviesCopyWith<$Res> {
   @override
   $Res call(
       {@JsonKey(name: 'page') int? page,
-      @JsonKey(name: 'result') List<MoviesResult>? data});
+      @JsonKey(name: 'results') List<MoviesResult>? data});
 }
 
 /// @nodoc
@@ -125,7 +125,7 @@ class __$MoviesCopyWithImpl<$Res> extends _$MoviesCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Movies implements _Movies {
   const _$_Movies(
-      {@JsonKey(name: 'page') this.page, @JsonKey(name: 'result') this.data});
+      {@JsonKey(name: 'page') this.page, @JsonKey(name: 'results') this.data});
 
   factory _$_Movies.fromJson(Map<String, dynamic> json) =>
       _$_$_MoviesFromJson(json);
@@ -134,7 +134,7 @@ class _$_Movies implements _Movies {
   @JsonKey(name: 'page')
   final int? page;
   @override
-  @JsonKey(name: 'result')
+  @JsonKey(name: 'results')
   final List<MoviesResult>? data;
 
   @override
@@ -172,7 +172,7 @@ class _$_Movies implements _Movies {
 abstract class _Movies implements Movies {
   const factory _Movies(
       {@JsonKey(name: 'page') int? page,
-      @JsonKey(name: 'result') List<MoviesResult>? data}) = _$_Movies;
+      @JsonKey(name: 'results') List<MoviesResult>? data}) = _$_Movies;
 
   factory _Movies.fromJson(Map<String, dynamic> json) = _$_Movies.fromJson;
 
@@ -180,7 +180,7 @@ abstract class _Movies implements Movies {
   @JsonKey(name: 'page')
   int? get page => throw _privateConstructorUsedError;
   @override
-  @JsonKey(name: 'result')
+  @JsonKey(name: 'results')
   List<MoviesResult>? get data => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
