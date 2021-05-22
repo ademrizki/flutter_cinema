@@ -17,7 +17,7 @@ class NetworkService implements RepositoryServices {
     };
 
     final _response = await _dio.get(
-      'popular',
+      'movie/popular',
       queryParameters: _data,
     );
 
@@ -32,7 +32,7 @@ class NetworkService implements RepositoryServices {
     };
 
     final _response = await _dio.get(
-      'now_playing',
+      'movie/now_playing',
       queryParameters: _data,
     );
 
@@ -51,5 +51,22 @@ class NetworkService implements RepositoryServices {
     final _response = await _dio.get('movie/$movieId/credits');
 
     return MovieCasts.fromJson(_response.data);
+  }
+
+  @override
+  Future<Movies> fetchMovieFromSearch(
+      {int? page = 1, required String query}) async {
+    final _data = {
+      // 'api_key': MOVIE_API_KEY,
+      'page': page,
+      'query': query,
+    };
+
+    final _response = await _dio.get(
+      'search/movie',
+      queryParameters: _data,
+    );
+
+    return Movies.fromJson(_response.data);
   }
 }
