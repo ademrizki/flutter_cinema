@@ -23,6 +23,8 @@ class MoviesNotifier extends StateNotifier<MainState<Movies>> {
 
   int _page = 1;
 
+  bool _isOnSearch = false;
+
   bool fnOnPagination(ScrollNotification scrollInfo) {
     if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
       _page++;
@@ -33,6 +35,7 @@ class MoviesNotifier extends StateNotifier<MainState<Movies>> {
   }
 
   Future fetchMovies({int? page}) async {
+    _isOnSearch = false;
     _page = 1;
     try {
       state = LoadingState();
@@ -51,18 +54,46 @@ class MoviesNotifier extends StateNotifier<MainState<Movies>> {
     }
   }
 
+  Future fetchMoviesFromSearch({int? page, required String query}) async {
+    if (query.isNotEmpty) {
+      _page = 1;
+      _isOnSearch = true;
+      try {
+        state = LoadingState();
+
+        /// FETCH MOVIE LIST FROM SEARCH
+        _movies = await _networkService.fetchMovieFromSearch(query: query);
+
+        state = SuccessState(data: _movies!);
+      } catch (e) {
+        state = FailState(e.toString());
+      }
+    } else {
+      await fetchMovies();
+    }
+  }
+
   Future fetchNextPage({int? page}) async {
     late final Movies _result;
     if (_movies != null && page != null) {
       isLoading.value = true;
-      if (selectedMovieSection.value == 'now_playing') {
-        _result = await _networkService.fetchNowPlayingMovies(page: page);
+      if (_isOnSearch == true && searchController.text.isNotEmpty) {
+        _result = await _networkService.fetchMovieFromSearch(
+          query: searchController.text,
+          page: page,
+        );
       } else {
-        _result = await _networkService.fetchPopularMovies(page: page);
+        if (selectedMovieSection.value == 'now_playing') {
+          _result = await _networkService.fetchNowPlayingMovies(page: page);
+        } else {
+          _result = await _networkService.fetchPopularMovies(page: page);
+        }
       }
 
-      _movies!.data!.addAll(_result.data!);
-      isLoading.value = false;
+      if (_movies!.data != null) {
+        _movies!.data!.addAll(_result.data!);
+        isLoading.value = false;
+      }
     }
 
     state = SuccessState(data: _movies!);
