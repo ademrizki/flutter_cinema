@@ -5,6 +5,7 @@ import 'package:flutter_cinema/src/model/movies/movies.dart';
 import 'package:flutter_cinema/src/provider/provider.dart';
 import 'package:flutter_cinema/src/utils/constants/constant_url.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -32,29 +33,31 @@ class HomePage extends StatelessWidget {
           child: Column(
             children: [
               /// SEARCH FIELD
-              // TextField(
-              //   controller: _provider.searchController,
-              //   decoration: InputDecoration(
-              //     hintText: 'Search',
-              //     filled: true,
-              //     fillColor: Colors.white,
-              //     isDense: true,
-              //     contentPadding: const EdgeInsets.symmetric(
-              //       vertical: 14,
-              //       horizontal: 10,
-              //     ),
-              //     border: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(8),
-              //       borderSide: BorderSide(
-              //         width: 0,
-              //         style: BorderStyle.none,
-              //       ),
-              //     ),
-              //     prefixIcon: Icon(CupertinoIcons.search),
-              //   ),
-              //   textInputAction: TextInputAction.search,
-              // ),
-              // const SizedBox(height: 20),
+              TextField(
+                controller: _provider.searchController,
+                decoration: InputDecoration(
+                  hintText: 'Search',
+                  filled: true,
+                  fillColor: Colors.white,
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 10,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      width: 0,
+                      style: BorderStyle.none,
+                    ),
+                  ),
+                  prefixIcon: Icon(CupertinoIcons.search),
+                ),
+                textInputAction: TextInputAction.search,
+                onChanged: (value) =>
+                    _provider.fetchMoviesFromSearch(query: value),
+              ),
+              const SizedBox(height: 20),
 
               /// MOVIE SECTION CONTROLLER
               SizedBox(
@@ -81,7 +84,7 @@ class HomePage extends StatelessWidget {
                   child: ListView(
                     shrinkWrap: true,
                     padding: const EdgeInsets.only(bottom: 20),
-                    physics: AlwaysScrollableScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(),
                     children: [
                       /// MOVIES
                       Consumer(
@@ -89,12 +92,12 @@ class HomePage extends StatelessWidget {
                           final state = watch(moviesProvider);
                           return state.when(
                             initial: () => child!,
-                            loading: () => CupertinoActivityIndicator(),
+                            loading: () => child!,
                             success: (Movies data) => GridView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: data.data?.length ?? 0,
                               shrinkWrap: true,
-                              padding: const EdgeInsets.only(bottom: 10),
+                              padding: const EdgeInsets.only(bottom: 20),
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
@@ -122,7 +125,29 @@ class HomePage extends StatelessWidget {
                                 Text('Oops, unexpected things happen!'),
                           );
                         },
-                        child: SizedBox(),
+                        child: GridView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: 8,
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.only(bottom: 20),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.7,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                          ),
+                          itemBuilder: (context, index) => Shimmer.fromColors(
+                            baseColor: Colors.grey.shade400,
+                            highlightColor: Colors.grey.shade100,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
 
                       /// PAGINATION INDICATOR
