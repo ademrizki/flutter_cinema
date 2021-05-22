@@ -1,7 +1,7 @@
 name: flutter_cinema
-description: A new Flutter project.
+description: A Flutter Cinema App.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -11,12 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.2
   freezed_annotation: ^0.14.1
   flutter_riverpod: ^0.14.0+2
   dio: ^4.0.0
-  flutter_secure_storage: ^4.1.0
   extended_image: ^4.0.1
   intl: ^0.17.0
 
