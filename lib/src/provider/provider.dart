@@ -23,14 +23,13 @@ final _dioProvider = Provider<Dio>(
 /// Dio Provider (For Fetch Data)
 final _networkServiceProvider = Provider<NetworkService>(
   (_ref) => NetworkService(
-    _ref.watch(_dioProvider),
+    _ref.read(_dioProvider),
   ),
 );
 
 /// Movies Notifier Provider
-final moviesProvider =
-    StateNotifierProvider.autoDispose<MoviesNotifier, MainState<Movies>>(
+final moviesProvider = StateNotifierProvider<MoviesNotifier, MainState<Movies>>(
   (ref) => MoviesNotifier(
-    ref.watch(_networkServiceProvider),
+    ref.read(_networkServiceProvider),
   )..fetchMovies(),
 );
