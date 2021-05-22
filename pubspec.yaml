@@ -17,6 +17,7 @@ dependencies:
   dio: ^4.0.0
   extended_image: ^4.0.1
   intl: ^0.17.0
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:
