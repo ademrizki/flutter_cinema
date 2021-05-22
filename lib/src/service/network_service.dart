@@ -10,10 +10,10 @@ class NetworkService implements RepositoryServices {
   final Dio _dio;
 
   @override
-  Future<Movies> fetchPopularMovies({String? page}) async {
+  Future<Movies> fetchPopularMovies({int? page = 1}) async {
     final _data = {
       // 'api_key': MOVIE_API_KEY,
-      'page': page ?? 1,
+      'page': page,
     };
 
     final _response = await _dio.get(
@@ -25,10 +25,10 @@ class NetworkService implements RepositoryServices {
   }
 
   @override
-  Future<Movies> fetchNowPlayingMovies({String? page}) async {
+  Future<Movies> fetchNowPlayingMovies({int? page = 1}) async {
     final _data = {
       // 'api_key': MOVIE_API_KEY,
-      'page': page ?? 1,
+      'page': page,
     };
 
     final _response = await _dio.get(
