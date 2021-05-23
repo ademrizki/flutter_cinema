@@ -24,10 +24,11 @@ class _$MovieDetailTearOff {
       {int? id,
       String? title,
       @JsonKey(name: 'poster_path') String? poster,
-      String? runtime,
+      int? runtime,
       @JsonKey(name: 'release_date') String? releaseDate,
-      @JsonKey(name: 'vote_average') String? ratingScore,
-      @JsonKey(name: 'vote_count') String? numbersVote,
+      @JsonKey(name: 'vote_average') double? ratingScore,
+      @JsonKey(name: 'vote_count') int? numbersVote,
+      bool? adult,
       String? overview,
       List<Genres>? genres}) {
     return _MovieDetail(
@@ -38,6 +39,7 @@ class _$MovieDetailTearOff {
       releaseDate: releaseDate,
       ratingScore: ratingScore,
       numbersVote: numbersVote,
+      adult: adult,
       overview: overview,
       genres: genres,
     );
@@ -57,13 +59,14 @@ mixin _$MovieDetail {
   String? get title => throw _privateConstructorUsedError;
   @JsonKey(name: 'poster_path')
   String? get poster => throw _privateConstructorUsedError;
-  String? get runtime => throw _privateConstructorUsedError;
+  int? get runtime => throw _privateConstructorUsedError;
   @JsonKey(name: 'release_date')
   String? get releaseDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'vote_average')
-  String? get ratingScore => throw _privateConstructorUsedError;
+  double? get ratingScore => throw _privateConstructorUsedError;
   @JsonKey(name: 'vote_count')
-  String? get numbersVote => throw _privateConstructorUsedError;
+  int? get numbersVote => throw _privateConstructorUsedError;
+  bool? get adult => throw _privateConstructorUsedError;
   String? get overview => throw _privateConstructorUsedError;
   List<Genres>? get genres => throw _privateConstructorUsedError;
 
@@ -82,10 +85,11 @@ abstract class $MovieDetailCopyWith<$Res> {
       {int? id,
       String? title,
       @JsonKey(name: 'poster_path') String? poster,
-      String? runtime,
+      int? runtime,
       @JsonKey(name: 'release_date') String? releaseDate,
-      @JsonKey(name: 'vote_average') String? ratingScore,
-      @JsonKey(name: 'vote_count') String? numbersVote,
+      @JsonKey(name: 'vote_average') double? ratingScore,
+      @JsonKey(name: 'vote_count') int? numbersVote,
+      bool? adult,
       String? overview,
       List<Genres>? genres});
 }
@@ -107,6 +111,7 @@ class _$MovieDetailCopyWithImpl<$Res> implements $MovieDetailCopyWith<$Res> {
     Object? releaseDate = freezed,
     Object? ratingScore = freezed,
     Object? numbersVote = freezed,
+    Object? adult = freezed,
     Object? overview = freezed,
     Object? genres = freezed,
   }) {
@@ -126,7 +131,7 @@ class _$MovieDetailCopyWithImpl<$Res> implements $MovieDetailCopyWith<$Res> {
       runtime: runtime == freezed
           ? _value.runtime
           : runtime // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       releaseDate: releaseDate == freezed
           ? _value.releaseDate
           : releaseDate // ignore: cast_nullable_to_non_nullable
@@ -134,11 +139,15 @@ class _$MovieDetailCopyWithImpl<$Res> implements $MovieDetailCopyWith<$Res> {
       ratingScore: ratingScore == freezed
           ? _value.ratingScore
           : ratingScore // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       numbersVote: numbersVote == freezed
           ? _value.numbersVote
           : numbersVote // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
+      adult: adult == freezed
+          ? _value.adult
+          : adult // ignore: cast_nullable_to_non_nullable
+              as bool?,
       overview: overview == freezed
           ? _value.overview
           : overview // ignore: cast_nullable_to_non_nullable
@@ -162,10 +171,11 @@ abstract class _$MovieDetailCopyWith<$Res>
       {int? id,
       String? title,
       @JsonKey(name: 'poster_path') String? poster,
-      String? runtime,
+      int? runtime,
       @JsonKey(name: 'release_date') String? releaseDate,
-      @JsonKey(name: 'vote_average') String? ratingScore,
-      @JsonKey(name: 'vote_count') String? numbersVote,
+      @JsonKey(name: 'vote_average') double? ratingScore,
+      @JsonKey(name: 'vote_count') int? numbersVote,
+      bool? adult,
       String? overview,
       List<Genres>? genres});
 }
@@ -189,6 +199,7 @@ class __$MovieDetailCopyWithImpl<$Res> extends _$MovieDetailCopyWithImpl<$Res>
     Object? releaseDate = freezed,
     Object? ratingScore = freezed,
     Object? numbersVote = freezed,
+    Object? adult = freezed,
     Object? overview = freezed,
     Object? genres = freezed,
   }) {
@@ -208,7 +219,7 @@ class __$MovieDetailCopyWithImpl<$Res> extends _$MovieDetailCopyWithImpl<$Res>
       runtime: runtime == freezed
           ? _value.runtime
           : runtime // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       releaseDate: releaseDate == freezed
           ? _value.releaseDate
           : releaseDate // ignore: cast_nullable_to_non_nullable
@@ -216,11 +227,15 @@ class __$MovieDetailCopyWithImpl<$Res> extends _$MovieDetailCopyWithImpl<$Res>
       ratingScore: ratingScore == freezed
           ? _value.ratingScore
           : ratingScore // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       numbersVote: numbersVote == freezed
           ? _value.numbersVote
           : numbersVote // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
+      adult: adult == freezed
+          ? _value.adult
+          : adult // ignore: cast_nullable_to_non_nullable
+              as bool?,
       overview: overview == freezed
           ? _value.overview
           : overview // ignore: cast_nullable_to_non_nullable
@@ -244,6 +259,7 @@ class _$_MovieDetail implements _MovieDetail {
       @JsonKey(name: 'release_date') this.releaseDate,
       @JsonKey(name: 'vote_average') this.ratingScore,
       @JsonKey(name: 'vote_count') this.numbersVote,
+      this.adult,
       this.overview,
       this.genres});
 
@@ -258,16 +274,18 @@ class _$_MovieDetail implements _MovieDetail {
   @JsonKey(name: 'poster_path')
   final String? poster;
   @override
-  final String? runtime;
+  final int? runtime;
   @override
   @JsonKey(name: 'release_date')
   final String? releaseDate;
   @override
   @JsonKey(name: 'vote_average')
-  final String? ratingScore;
+  final double? ratingScore;
   @override
   @JsonKey(name: 'vote_count')
-  final String? numbersVote;
+  final int? numbersVote;
+  @override
+  final bool? adult;
   @override
   final String? overview;
   @override
@@ -275,7 +293,7 @@ class _$_MovieDetail implements _MovieDetail {
 
   @override
   String toString() {
-    return 'MovieDetail(id: $id, title: $title, poster: $poster, runtime: $runtime, releaseDate: $releaseDate, ratingScore: $ratingScore, numbersVote: $numbersVote, overview: $overview, genres: $genres)';
+    return 'MovieDetail(id: $id, title: $title, poster: $poster, runtime: $runtime, releaseDate: $releaseDate, ratingScore: $ratingScore, numbersVote: $numbersVote, adult: $adult, overview: $overview, genres: $genres)';
   }
 
   @override
@@ -300,6 +318,8 @@ class _$_MovieDetail implements _MovieDetail {
             (identical(other.numbersVote, numbersVote) ||
                 const DeepCollectionEquality()
                     .equals(other.numbersVote, numbersVote)) &&
+            (identical(other.adult, adult) ||
+                const DeepCollectionEquality().equals(other.adult, adult)) &&
             (identical(other.overview, overview) ||
                 const DeepCollectionEquality()
                     .equals(other.overview, overview)) &&
@@ -317,6 +337,7 @@ class _$_MovieDetail implements _MovieDetail {
       const DeepCollectionEquality().hash(releaseDate) ^
       const DeepCollectionEquality().hash(ratingScore) ^
       const DeepCollectionEquality().hash(numbersVote) ^
+      const DeepCollectionEquality().hash(adult) ^
       const DeepCollectionEquality().hash(overview) ^
       const DeepCollectionEquality().hash(genres);
 
@@ -336,10 +357,11 @@ abstract class _MovieDetail implements MovieDetail {
       {int? id,
       String? title,
       @JsonKey(name: 'poster_path') String? poster,
-      String? runtime,
+      int? runtime,
       @JsonKey(name: 'release_date') String? releaseDate,
-      @JsonKey(name: 'vote_average') String? ratingScore,
-      @JsonKey(name: 'vote_count') String? numbersVote,
+      @JsonKey(name: 'vote_average') double? ratingScore,
+      @JsonKey(name: 'vote_count') int? numbersVote,
+      bool? adult,
       String? overview,
       List<Genres>? genres}) = _$_MovieDetail;
 
@@ -354,16 +376,18 @@ abstract class _MovieDetail implements MovieDetail {
   @JsonKey(name: 'poster_path')
   String? get poster => throw _privateConstructorUsedError;
   @override
-  String? get runtime => throw _privateConstructorUsedError;
+  int? get runtime => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'release_date')
   String? get releaseDate => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'vote_average')
-  String? get ratingScore => throw _privateConstructorUsedError;
+  double? get ratingScore => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'vote_count')
-  String? get numbersVote => throw _privateConstructorUsedError;
+  int? get numbersVote => throw _privateConstructorUsedError;
+  @override
+  bool? get adult => throw _privateConstructorUsedError;
   @override
   String? get overview => throw _privateConstructorUsedError;
   @override

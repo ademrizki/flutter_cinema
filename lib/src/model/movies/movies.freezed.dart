@@ -198,10 +198,12 @@ class _$MoviesResultTearOff {
   _MoviesResult call(
       {int? id,
       String? title,
+      @JsonKey(name: 'vote_average') double? ratingScore,
       @JsonKey(name: 'poster_path') String? posterPath}) {
     return _MoviesResult(
       id: id,
       title: title,
+      ratingScore: ratingScore,
       posterPath: posterPath,
     );
   }
@@ -218,6 +220,8 @@ const $MoviesResult = _$MoviesResultTearOff();
 mixin _$MoviesResult {
   int? get id => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
+  @JsonKey(name: 'vote_average')
+  double? get ratingScore => throw _privateConstructorUsedError;
   @JsonKey(name: 'poster_path')
   String? get posterPath => throw _privateConstructorUsedError;
 
@@ -235,6 +239,7 @@ abstract class $MoviesResultCopyWith<$Res> {
   $Res call(
       {int? id,
       String? title,
+      @JsonKey(name: 'vote_average') double? ratingScore,
       @JsonKey(name: 'poster_path') String? posterPath});
 }
 
@@ -250,6 +255,7 @@ class _$MoviesResultCopyWithImpl<$Res> implements $MoviesResultCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? title = freezed,
+    Object? ratingScore = freezed,
     Object? posterPath = freezed,
   }) {
     return _then(_value.copyWith(
@@ -261,6 +267,10 @@ class _$MoviesResultCopyWithImpl<$Res> implements $MoviesResultCopyWith<$Res> {
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
+      ratingScore: ratingScore == freezed
+          ? _value.ratingScore
+          : ratingScore // ignore: cast_nullable_to_non_nullable
+              as double?,
       posterPath: posterPath == freezed
           ? _value.posterPath
           : posterPath // ignore: cast_nullable_to_non_nullable
@@ -279,6 +289,7 @@ abstract class _$MoviesResultCopyWith<$Res>
   $Res call(
       {int? id,
       String? title,
+      @JsonKey(name: 'vote_average') double? ratingScore,
       @JsonKey(name: 'poster_path') String? posterPath});
 }
 
@@ -296,6 +307,7 @@ class __$MoviesResultCopyWithImpl<$Res> extends _$MoviesResultCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? title = freezed,
+    Object? ratingScore = freezed,
     Object? posterPath = freezed,
   }) {
     return _then(_MoviesResult(
@@ -307,6 +319,10 @@ class __$MoviesResultCopyWithImpl<$Res> extends _$MoviesResultCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
+      ratingScore: ratingScore == freezed
+          ? _value.ratingScore
+          : ratingScore // ignore: cast_nullable_to_non_nullable
+              as double?,
       posterPath: posterPath == freezed
           ? _value.posterPath
           : posterPath // ignore: cast_nullable_to_non_nullable
@@ -319,7 +335,10 @@ class __$MoviesResultCopyWithImpl<$Res> extends _$MoviesResultCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_MoviesResult implements _MoviesResult {
   const _$_MoviesResult(
-      {this.id, this.title, @JsonKey(name: 'poster_path') this.posterPath});
+      {this.id,
+      this.title,
+      @JsonKey(name: 'vote_average') this.ratingScore,
+      @JsonKey(name: 'poster_path') this.posterPath});
 
   factory _$_MoviesResult.fromJson(Map<String, dynamic> json) =>
       _$_$_MoviesResultFromJson(json);
@@ -329,12 +348,15 @@ class _$_MoviesResult implements _MoviesResult {
   @override
   final String? title;
   @override
+  @JsonKey(name: 'vote_average')
+  final double? ratingScore;
+  @override
   @JsonKey(name: 'poster_path')
   final String? posterPath;
 
   @override
   String toString() {
-    return 'MoviesResult(id: $id, title: $title, posterPath: $posterPath)';
+    return 'MoviesResult(id: $id, title: $title, ratingScore: $ratingScore, posterPath: $posterPath)';
   }
 
   @override
@@ -345,6 +367,9 @@ class _$_MoviesResult implements _MoviesResult {
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.ratingScore, ratingScore) ||
+                const DeepCollectionEquality()
+                    .equals(other.ratingScore, ratingScore)) &&
             (identical(other.posterPath, posterPath) ||
                 const DeepCollectionEquality()
                     .equals(other.posterPath, posterPath)));
@@ -355,6 +380,7 @@ class _$_MoviesResult implements _MoviesResult {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(ratingScore) ^
       const DeepCollectionEquality().hash(posterPath);
 
   @JsonKey(ignore: true)
@@ -372,6 +398,7 @@ abstract class _MoviesResult implements MoviesResult {
   const factory _MoviesResult(
       {int? id,
       String? title,
+      @JsonKey(name: 'vote_average') double? ratingScore,
       @JsonKey(name: 'poster_path') String? posterPath}) = _$_MoviesResult;
 
   factory _MoviesResult.fromJson(Map<String, dynamic> json) =
@@ -381,6 +408,9 @@ abstract class _MoviesResult implements MoviesResult {
   int? get id => throw _privateConstructorUsedError;
   @override
   String? get title => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'vote_average')
+  double? get ratingScore => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'poster_path')
   String? get posterPath => throw _privateConstructorUsedError;

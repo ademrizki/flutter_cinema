@@ -24,6 +24,7 @@ _$_MoviesResult _$_$_MoviesResultFromJson(Map<String, dynamic> json) {
   return _$_MoviesResult(
     id: json['id'] as int?,
     title: json['title'] as String?,
+    ratingScore: (json['vote_average'] as num?)?.toDouble(),
     posterPath: json['poster_path'] as String?,
   );
 }
@@ -32,5 +33,6 @@ Map<String, dynamic> _$_$_MoviesResultToJson(_$_MoviesResult instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
+      'vote_average': instance.ratingScore,
       'poster_path': instance.posterPath,
     };

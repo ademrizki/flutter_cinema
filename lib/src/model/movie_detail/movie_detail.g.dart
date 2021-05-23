@@ -11,10 +11,11 @@ _$_MovieDetail _$_$_MovieDetailFromJson(Map<String, dynamic> json) {
     id: json['id'] as int?,
     title: json['title'] as String?,
     poster: json['poster_path'] as String?,
-    runtime: json['runtime'] as String?,
+    runtime: json['runtime'] as int?,
     releaseDate: json['release_date'] as String?,
-    ratingScore: json['vote_average'] as String?,
-    numbersVote: json['vote_count'] as String?,
+    ratingScore: (json['vote_average'] as num?)?.toDouble(),
+    numbersVote: json['vote_count'] as int?,
+    adult: json['adult'] as bool?,
     overview: json['overview'] as String?,
     genres: (json['genres'] as List<dynamic>?)
         ?.map((e) => Genres.fromJson(e as Map<String, dynamic>))
@@ -31,6 +32,7 @@ Map<String, dynamic> _$_$_MovieDetailToJson(_$_MovieDetail instance) =>
       'release_date': instance.releaseDate,
       'vote_average': instance.ratingScore,
       'vote_count': instance.numbersVote,
+      'adult': instance.adult,
       'overview': instance.overview,
       'genres': instance.genres,
     };

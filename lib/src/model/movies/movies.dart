@@ -18,6 +18,7 @@ class MoviesResult with _$MoviesResult {
   const factory MoviesResult({
     int? id,
     String? title,
+    @JsonKey(name: 'vote_average') double? ratingScore,
     @JsonKey(name: 'poster_path') String? posterPath,
   }) = _MoviesResult;
 
