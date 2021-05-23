@@ -7,9 +7,9 @@ abstract class RepositoryServices {
 
   Future<Movies> fetchNowPlayingMovies({int? page});
 
-  Future<MovieDetail> fetchMovieDetail({required String movieId});
+  Future<MovieDetail> fetchMovieDetail({required int movieId});
 
-  Future<MovieCasts> fetchMovieCasts({required String movieId});
+  Future<MovieCasts> fetchMovieCasts({required int movieId});
 
   Future<Movies> fetchMovieFromSearch({int? page, required String query});
 }
