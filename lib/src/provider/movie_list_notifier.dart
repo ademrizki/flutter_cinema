@@ -50,7 +50,7 @@ class MoviesNotifier extends StateNotifier<MainState<Movies>> {
 
       state = SuccessState(data: _movies!);
     } catch (e) {
-      state = FailState(e.toString());
+      state = FailState(e, e.toString());
     }
   }
 
@@ -66,7 +66,7 @@ class MoviesNotifier extends StateNotifier<MainState<Movies>> {
 
         state = SuccessState(data: _movies!);
       } catch (e) {
-        state = FailState(e.toString());
+        state = FailState(e, e.toString());
       }
     } else {
       await fetchMovies();
@@ -74,28 +74,32 @@ class MoviesNotifier extends StateNotifier<MainState<Movies>> {
   }
 
   Future fetchNextPage({int? page}) async {
-    late final Movies _result;
-    if (_movies != null && page != null) {
-      isLoading.value = true;
-      if (_isOnSearch == true && searchController.text.isNotEmpty) {
-        _result = await _networkService.fetchMovieFromSearch(
-          query: searchController.text,
-          page: page,
-        );
-      } else {
-        if (selectedMovieSection.value == 'now_playing') {
-          _result = await _networkService.fetchNowPlayingMovies(page: page);
+    try {
+      late final Movies _result;
+      if (_movies != null && page != null) {
+        isLoading.value = true;
+        if (_isOnSearch == true && searchController.text.isNotEmpty) {
+          _result = await _networkService.fetchMovieFromSearch(
+            query: searchController.text,
+            page: page,
+          );
         } else {
-          _result = await _networkService.fetchPopularMovies(page: page);
+          if (selectedMovieSection.value == 'now_playing') {
+            _result = await _networkService.fetchNowPlayingMovies(page: page);
+          } else {
+            _result = await _networkService.fetchPopularMovies(page: page);
+          }
+        }
+
+        if (_movies!.data != null) {
+          _movies!.data!.addAll(_result.data!);
+          isLoading.value = false;
         }
       }
 
-      if (_movies!.data != null) {
-        _movies!.data!.addAll(_result.data!);
-        isLoading.value = false;
-      }
+      state = SuccessState(data: _movies!);
+    } catch (e) {
+      state = FailState(e, e.toString());
     }
-
-    state = SuccessState(data: _movies!);
   }
 }
