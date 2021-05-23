@@ -11,7 +11,7 @@ import 'package:flutter_cinema/src/utils/constants/constant_url.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Dio Provider (For Fetch Data)
-final _dioProvider = Provider<Dio>(
+final dioProvider = Provider<Dio>(
   (_ref) => Dio(
     BaseOptions(
       baseUrl: BASE_URL,
@@ -24,16 +24,16 @@ final _dioProvider = Provider<Dio>(
 );
 
 /// Dio Provider (For Fetch Data)
-final _networkServiceProvider = Provider<NetworkService>(
+final networkServiceProvider = Provider<NetworkService>(
   (_ref) => NetworkService(
-    _ref.read(_dioProvider),
+    _ref.read(dioProvider),
   ),
 );
 
 /// Movies Notifier Provider
 final moviesProvider = StateNotifierProvider<MoviesNotifier, MainState<Movies>>(
   (ref) => MoviesNotifier(
-    ref.read(_networkServiceProvider),
+    ref.read(networkServiceProvider),
   )..fetchMovies(),
 );
 
@@ -41,20 +41,19 @@ final moviesProvider = StateNotifierProvider<MoviesNotifier, MainState<Movies>>(
 final movieDetailProvider =
     StateNotifierProvider<MovieDetailNotifier, MainState<MovieDetail>>(
   (ref) => MovieDetailNotifier(
-    ref.read(_networkServiceProvider),
+    ref.read(networkServiceProvider),
   ),
 );
 
 /// Movie Detail Future Provider
 final movieDetailFutureProvider = FutureProvider.family<MovieDetail, int>(
   (ref, movieId) async => await ref
-      .watch(_networkServiceProvider)
+      .watch(networkServiceProvider)
       .fetchMovieDetail(movieId: movieId),
 );
 
 /// Movie Cast Future Provider
 final movieCastFutureProvider = FutureProvider.family<MovieCasts, int>(
-  (ref, movieId) async => await ref
-      .watch(_networkServiceProvider)
-      .fetchMovieCasts(movieId: movieId),
+  (ref, movieId) async =>
+      await ref.watch(networkServiceProvider).fetchMovieCasts(movieId: movieId),
 );
