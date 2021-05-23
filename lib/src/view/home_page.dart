@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cinema/src/model/movies/movies.dart';
 import 'package:flutter_cinema/src/provider/provider.dart';
 import 'package:flutter_cinema/src/utils/constants/constant_url.dart';
+import 'package:flutter_cinema/src/utils/exception/dio_exceptions.dart';
+import 'package:flutter_cinema/src/view/movie_detail_page.dart';
+import 'package:flutter_cinema/src/view/widget/error_placeholder.dart';
+import 'package:flutter_cinema/src/view/widget/shimmer_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatelessWidget {
+  static const String route = '/homePage';
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -108,12 +112,109 @@ class HomePage extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 final _data = data.data![index];
                                 return _data.posterPath != null
-                                    ? ExtendedImage.network(
-                                        IMAGE_BASE_URL_200 + _data.posterPath!,
-                                        borderRadius: BorderRadius.circular(20),
-                                        shape: BoxShape.rectangle,
-                                        cache: true,
-                                        fit: BoxFit.cover,
+                                    ? GestureDetector(
+                                        onTap: () => Navigator.pushNamed(
+                                          context,
+                                          '/movieDetailPage',
+                                          arguments: MovieDetailPage(
+                                            heroId: index,
+                                            imagePath: _data.posterPath!,
+                                            movieId: _data.id,
+                                          ),
+                                        ),
+                                        child: Hero(
+                                          tag: index,
+                                          child: Stack(
+                                            fit: StackFit.expand,
+                                            children: [
+                                              /// IMAGE
+                                              ExtendedImage.network(
+                                                IMAGE_BASE_URL_200 +
+                                                    _data.posterPath!,
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                shape: BoxShape.rectangle,
+                                                cache: true,
+                                                fit: BoxFit.cover,
+                                              ),
+
+                                              /// GRADIENT
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  gradient: LinearGradient(
+                                                    begin:
+                                                        Alignment.bottomCenter,
+                                                    end: Alignment.center,
+                                                    colors: [
+                                                      Colors.black54,
+                                                      Colors.transparent,
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+
+                                              /// TITLE
+                                              Positioned(
+                                                bottom: 10,
+                                                right: 8,
+                                                left: 8,
+                                                child: Text(
+                                                  '${_data.title}',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText2!
+                                                      .copyWith(
+                                                          color: Colors.white),
+                                                  textAlign: TextAlign.center,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                ),
+                                              ),
+
+                                              /// RATING
+                                              Positioned(
+                                                top: 10,
+                                                right: 10,
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 4),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4),
+                                                    color: Colors.white
+                                                        .withOpacity(0.4),
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        CupertinoIcons
+                                                            .star_fill,
+                                                        color: Colors.amber,
+                                                        size: 18,
+                                                      ),
+                                                      SizedBox(width: 4),
+                                                      Text(
+                                                        '${_data.ratingScore}',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText2!
+                                                            .copyWith(
+                                                                color: Colors
+                                                                    .white),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       )
                                     : Icon(
                                         CupertinoIcons.info_circle,
@@ -121,33 +222,25 @@ class HomePage extends StatelessWidget {
                                       );
                               },
                             ),
-                            fail: (message) =>
-                                Text('Oops, unexpected things happen!'),
+                            fail: (e, message) {
+                              if (e is DioException) {
+                                return ErrorPlaceholder(
+                                  message: e.message!,
+                                  onError: () => context
+                                      .refresh(moviesProvider)
+                                      .fetchMovies(),
+                                );
+                              }
+                              return ErrorPlaceholder(
+                                message: 'Sorry, Unexpected things happened!',
+                                onError: () => context
+                                    .refresh(moviesProvider)
+                                    .fetchMovies(),
+                              );
+                            },
                           );
                         },
-                        child: GridView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: 8,
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.only(bottom: 20),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.7,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                          ),
-                          itemBuilder: (context, index) => Shimmer.fromColors(
-                            baseColor: Colors.grey.shade400,
-                            highlightColor: Colors.grey.shade100,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                          ),
-                        ),
+                        child: ShimmerGrid(),
                       ),
 
                       /// PAGINATION INDICATOR
