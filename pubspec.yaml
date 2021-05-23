@@ -25,8 +25,9 @@ dev_dependencies:
     sdk: flutter
   pedantic: ^1.11.0
   flutter_launcher_icons: ^0.9.0
-  json_serializable:
   freezed: ^0.14.2
+  mockito:
+  json_serializable:
   build_runner:
 
 flutter:
