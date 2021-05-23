@@ -30,8 +30,9 @@ class _$MainStateTearOff {
     );
   }
 
-  FailState<T> fail<T>([String? message]) {
+  FailState<T> fail<T>([Object? error, String? message]) {
     return FailState<T>(
+      error,
       message,
     );
   }
@@ -47,7 +48,7 @@ mixin _$MainState<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(T data) success,
-    required TResult Function(String? message) fail,
+    required TResult Function(Object? error, String? message) fail,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,7 +56,7 @@ mixin _$MainState<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(T data)? success,
-    TResult Function(String? message)? fail,
+    TResult Function(Object? error, String? message)? fail,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -137,7 +138,7 @@ class _$InitialState<T> implements InitialState<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(T data) success,
-    required TResult Function(String? message) fail,
+    required TResult Function(Object? error, String? message) fail,
   }) {
     return initial();
   }
@@ -148,7 +149,7 @@ class _$InitialState<T> implements InitialState<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(T data)? success,
-    TResult Function(String? message)? fail,
+    TResult Function(Object? error, String? message)? fail,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -231,7 +232,7 @@ class _$LoadingState<T> implements LoadingState<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(T data) success,
-    required TResult Function(String? message) fail,
+    required TResult Function(Object? error, String? message) fail,
   }) {
     return loading();
   }
@@ -242,7 +243,7 @@ class _$LoadingState<T> implements LoadingState<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(T data)? success,
-    TResult Function(String? message)? fail,
+    TResult Function(Object? error, String? message)? fail,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -350,7 +351,7 @@ class _$SuccessState<T> implements SuccessState<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(T data) success,
-    required TResult Function(String? message) fail,
+    required TResult Function(Object? error, String? message) fail,
   }) {
     return success(data);
   }
@@ -361,7 +362,7 @@ class _$SuccessState<T> implements SuccessState<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(T data)? success,
-    TResult Function(String? message)? fail,
+    TResult Function(Object? error, String? message)? fail,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -411,7 +412,7 @@ abstract class $FailStateCopyWith<T, $Res> {
   factory $FailStateCopyWith(
           FailState<T> value, $Res Function(FailState<T>) then) =
       _$FailStateCopyWithImpl<T, $Res>;
-  $Res call({String? message});
+  $Res call({Object? error, String? message});
 }
 
 /// @nodoc
@@ -426,9 +427,11 @@ class _$FailStateCopyWithImpl<T, $Res> extends _$MainStateCopyWithImpl<T, $Res>
 
   @override
   $Res call({
+    Object? error = freezed,
     Object? message = freezed,
   }) {
     return _then(FailState<T>(
+      error == freezed ? _value.error : error,
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -440,27 +443,33 @@ class _$FailStateCopyWithImpl<T, $Res> extends _$MainStateCopyWithImpl<T, $Res>
 /// @nodoc
 
 class _$FailState<T> implements FailState<T> {
-  const _$FailState([this.message]);
+  const _$FailState([this.error, this.message]);
 
+  @override
+  final Object? error;
   @override
   final String? message;
 
   @override
   String toString() {
-    return 'MainState<$T>.fail(message: $message)';
+    return 'MainState<$T>.fail(error: $error, message: $message)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is FailState<T> &&
+            (identical(other.error, error) ||
+                const DeepCollectionEquality().equals(other.error, error)) &&
             (identical(other.message, message) ||
                 const DeepCollectionEquality().equals(other.message, message)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(error) ^
+      const DeepCollectionEquality().hash(message);
 
   @JsonKey(ignore: true)
   @override
@@ -473,9 +482,9 @@ class _$FailState<T> implements FailState<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(T data) success,
-    required TResult Function(String? message) fail,
+    required TResult Function(Object? error, String? message) fail,
   }) {
-    return fail(message);
+    return fail(error, message);
   }
 
   @override
@@ -484,11 +493,11 @@ class _$FailState<T> implements FailState<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(T data)? success,
-    TResult Function(String? message)? fail,
+    TResult Function(Object? error, String? message)? fail,
     required TResult orElse(),
   }) {
     if (fail != null) {
-      return fail(message);
+      return fail(error, message);
     }
     return orElse();
   }
@@ -521,8 +530,9 @@ class _$FailState<T> implements FailState<T> {
 }
 
 abstract class FailState<T> implements MainState<T> {
-  const factory FailState([String? message]) = _$FailState<T>;
+  const factory FailState([Object? error, String? message]) = _$FailState<T>;
 
+  Object? get error => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $FailStateCopyWith<T, FailState<T>> get copyWith =>
