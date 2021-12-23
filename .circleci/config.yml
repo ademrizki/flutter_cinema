@@ -7,7 +7,7 @@ jobs:
       - image: cirrusci/flutter
     steps:
       - checkout
-      - run: flutter doctor
+      - run: flutter doctor -v
       - run: flutter test
       - run: flutter build apk --debug
       - store_artifacts:
