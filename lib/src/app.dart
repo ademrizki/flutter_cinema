@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cinema/src/view/home_page.dart';
 import 'package:flutter_cinema/src/view/movie_detail_page.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.grey[200],
         primarySwatch: Colors.blue,
       ),
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: kReleaseMode ? false : true,
       initialRoute: HomePage.route,
       routes: {
         HomePage.route: (context) => HomePage(),
