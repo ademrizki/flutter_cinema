@@ -2,7 +2,7 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 jobs:
-  build:
+  debug_apk:
     docker:
       - image: cirrusci/flutter
     steps:
@@ -12,3 +12,11 @@ jobs:
       - run: flutter build apk --debug
       - store_artifacts:
           path: build/app/outputs/flutter-apk/app-debug.apk
+
+workflows:
+  build_debug_workflow:
+    jobs:
+      - debug_apk:
+          filters:
+            branches:
+              only: main
