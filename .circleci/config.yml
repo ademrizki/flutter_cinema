@@ -18,5 +18,5 @@ workflows:
     jobs:
       - debug_apk:
           filters:
-            branch:
+            branches:
               only: main
