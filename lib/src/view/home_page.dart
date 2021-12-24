@@ -63,7 +63,7 @@ class HomePage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              /// MOVIE SECTION CONTROLLER
+              /// MOVIE SECTION CONTROLLER (NEW OR HOT MOVIE)
               SizedBox(
                 width: double.infinity,
                 child: ValueListenableBuilder(
